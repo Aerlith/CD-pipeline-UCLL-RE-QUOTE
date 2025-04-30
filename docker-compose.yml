@@ -1,3 +1,18 @@
 version: "3.8"
 services:
-
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2025:2025"
+    environment:
+      - PORT=2025
+      - ENVIRONMENT=production
+    volumes:
+      - ./Server:/app/Server
+      - ./client:/app/client
+  cdpipe:
+    image: evilbyte/cdpipe:latest
+    ports:
+      - "2025:2025"
