@@ -1,0 +1,19 @@
+h1 {
+  font-family: "Inter", sans-serif, bold;
+}
+
+p {
+  font-family: "Inter", sans-serif, bold;
+  padding-bottom: 1em;
+}
+
+div {
+  padding-top: 30vh;
+  padding-bottom: 30vh;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 2em;
+  border-radius: 15px;
+  text-align: center;
+  background-color: #f2f0ee;
+}

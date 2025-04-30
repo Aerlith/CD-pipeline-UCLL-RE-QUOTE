@@ -1,0 +1,40 @@
+.flexbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+button {
+  border: none;
+  background-color: #3c3c3c;
+  opacity: 50%;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-radius: 10px;
+}
+.flexbox button {
+  width: 10%;
+}
+
+.connected-devices {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+button:hover {
+  cursor: pointer;
+}
+.error-message {
+  color: red;
+  font-family: "Inter", sans-serif, bold;
+  text-align: center;
+}
+
+.connect {
+  display: flex;
+  justify-content: center;
+}

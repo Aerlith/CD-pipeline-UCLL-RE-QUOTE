@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 200px;
+  height: 60px;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  gap: 1rem;
+}
+
+.toggle-ɠ {
+  flex-shrink: 0;
+}
+
+.label-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 750;
+  font-size: 1.25rem;
+  color: #333;
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 180px;
+    height: 50px;
+  }
+
+  .label-text {
+    font-size: 0.9rem;
+  }
+}
