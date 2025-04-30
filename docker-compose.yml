@@ -13,6 +13,6 @@ services:
       - ./Server:/app/Server
       - ./client:/app/client
   cdpipe:
-    image: evilbyte/cdpipe:latest
+    image: evilbyte/cdpuck:latest
     ports:
       - "2025:2025"
