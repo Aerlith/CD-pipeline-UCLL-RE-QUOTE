@@ -1,45 +1,46 @@
-name: Build and Push Docker Image
+name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [testing, staging]
+    paths:
+      - 'Server/**'
+      - 'client/**'
+      - 'Dockerfile'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Server/**'
+      - 'client/**'
+      - 'Dockerfile'
+      - '.github/workflows/**'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  testing:
+    name: Testing
+    uses: ./.github/workflows/testing.yml
+    permissions:
+      contents: read
+      packages: write
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+  build_push:
+    name: Build & Push Docker Image
+    needs: testing
+    if: github.base_ref == 'main' && github.event_name == 'pull_request' && needs.testing.outputs.has_failures != 'true'
+    uses: ./.github/workflows/docker-build.yml
+    permissions:
+      contents: read
+      packages: write
+    secrets: inherit
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker Image
-        run: docker build -t evilbyte/cdpipe:latest -f Dockerfile .
-
-      - name: Push Docker Image
-        run: docker push evilbyte/cdpipe:latest
-
-      - name: Notify Discord on success
-        if: ${{ success() }}
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "✅ GitHub Actions succeeded on `${{ github.repository }}` for commit `${{ github.sha }}`"}' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
-
-      - name: Notify Discord on failure
-        if: ${{ failure() }}
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "❌ GitHub Actions failed on `${{ github.repository }}` for commit `${{ github.sha }}`"}' \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
+  notify:
+    name: Notify Status
+    needs: [testing, build_push]
+    if: always()
+    uses: ./.github/workflows/notify.yml
+    with:
+      failures_summary: ${{ needs.testing.outputs.failures_summary || 'No failures' }}
+      build_status: ${{ needs.build_push.result || 'SKIPPED' }}
+      success: ${{ needs.testing.outputs.has_failures != 'true' && (needs.build_push.result == 'success' || needs.build_push.result == 'skipped') }}
+    secrets: inherit

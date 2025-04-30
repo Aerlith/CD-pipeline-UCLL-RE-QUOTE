@@ -1,0 +1,51 @@
+name: Notify Status
+
+on:
+  workflow_call:
+    inputs:
+      failures_summary:
+        required: false
+        type: string
+        description: "Summary of test failures"
+      build_status:
+        required: false
+        type: string
+        description: "Status of the Docker build"
+      success:
+        required: true
+        type: boolean
+        description: "Whether the pipeline succeeded"
+
+jobs:
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    permissions:
+      contents: none
+    
+    steps:
+    - name: Discord Success Notification
+      if: inputs.success == true
+      uses: appleboy/discord-action@v1.2.0
+      with:
+        webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        username: CI/CD Bot
+        color: "#00FF00"
+        message: |
+         ✅ **Deployment succeeded** on `${{ github.repository }}` ${{ github.ref_name }}
+          **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          **Pushed by:** ${{ github.actor }}
+
+    - name: Discord Failure Notification
+      if: inputs.success == false
+      uses: appleboy/discord-action@v1.2.0
+      with:
+        webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        username: CI/CD Bot
+        color: "#FF0000"
+        message: |
+          ❌ **Deployment failed** on `${{ github.repository }}` ${{ github.ref_name }}
+          **Tests:** ${{ inputs.failures_summary }}
+          **Docker Build:** ${{ inputs.build_status }}
+          **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          **Pushed by:** ${{ github.actor }}

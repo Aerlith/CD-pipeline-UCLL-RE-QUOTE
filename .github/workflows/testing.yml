@@ -1,0 +1,114 @@
+name: Testing
+
+on:
+
+  workflow_call:
+    outputs:
+      failures_summary:
+        description: "Summary of any test failures"
+        value: ${{ jobs.testing.outputs.failures_summary }}
+      has_failures:
+        description: "Boolean flag for failures"
+        value: ${{ jobs.testing.outputs.has_failures }}
+
+jobs:
+  testing:
+    name: testing
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      failures_summary: ${{ steps.failures.outputs.summary }}
+      has_failures: ${{ steps.failures.outputs.has_failures }}
+    
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js for Server
+        uses: actions/setup-node@v4
+        with:
+            node-version: ${{ matrix.node-version }}
+            cache: 'npm'
+            cache-dependency-path: Server/package-lock.json
+
+      - name: Install Server Dependencies
+        working-directory: Server
+        run: npm ci
+
+      - name: Setup Node.js for Client
+        uses: actions/setup-node@v4
+        with:
+               node-version: ${{ matrix.node-version }}
+               cache: 'npm'
+               cache-dependency-path: client/package-lock.json
+
+      - name: Install Client Dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run ESLint Server
+        id: eslint_server
+        working-directory: Server
+        if: always()
+        run: npx eslint . --ext .js,.ts,.jsx,.tsx
+
+      - name: Run ESLint Client
+        id: eslint_client
+        working-directory: client
+        if: always()
+        run: npx eslint . --ext .js,.ts,.jsx,.tsx
+
+      - name: Run Prettier Check
+        id: prettier
+        if: always()
+        run: |
+          npx prettier --check Server/
+          npx prettier --check client/
+
+      - name: Run Tests with Coverage
+        working-directory: Server
+        id: tests
+        if: always()
+        run: npm test && npm run test:coverage
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        id: coverage
+        if: always()
+        with:
+          name: coverage-report-${{ matrix.node-version }}
+          path: Server/coverage/
+          retention-days: 7
+
+      - name: Summarize Test Failures
+        uses: actions/github-script@v7
+        id: failures
+        if: always()
+        with:
+           script: |
+            const stepsContext = ${{ toJSON(steps) }};
+            const failures = [];
+
+            if (stepsContext.eslint_server && stepsContext.eslint_server.outcome !== 'success') {
+              failures.push('Server ESLint');}
+            if (stepsContext.eslint_client && stepsContext.eslint_client.outcome !== 'success') {
+              failures.push('Client ESLint');}
+            if (stepsContext.prettier && stepsContext.prettier.outcome !== 'success') {
+              failures.push('Prettier');}
+            if (stepsContext.tests && stepsContext.tests.outcome !== 'success') {
+              failures.push('Tests');} 
+
+            if (failures.length > 0) {
+              core.setOutput('summary', `${failures.join(', ')}`);
+              core.setOutput('has_failures', true);
+            } else {
+              core.setOutput('summary', '✅ All checks passed');
+              core.setOutput('has_failures', false);
+            }
