@@ -20,7 +20,7 @@ jobs:
   build_push:
     name: Build & Push Docker Image
     needs: testing
-    if: github.base_ref == 'main' && needs.testing.outputs.has_failures != 'true'
+    if: needs.testing.outputs.has_failures != 'true'
     uses: ./.github/workflows/docker-build.yml
     permissions:
       contents: read
