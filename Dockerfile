@@ -3,6 +3,6 @@ FROM node:lts
 WORKDIR /app
 COPY ./ ./
 
-WORKDIR /app/server
+WORKDIR /app/Server
 RUN npm i
 ENTRYPOINT [ "node", "server.js" ]

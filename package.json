@@ -31,7 +31,7 @@
   },
   "workspaces": [
     "client",
-    "server"
+    "Server"
   ],
   "main": "eslint.config.js"
 }
