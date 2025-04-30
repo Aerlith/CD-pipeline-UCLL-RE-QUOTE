@@ -88,7 +88,7 @@ window.customElements.define(
             channel: "go",
             data: _,
           },
-        })
+        }),
       );
     }
 
@@ -97,6 +97,6 @@ window.customElements.define(
     }
 
     attributeChangedCallback(name, oldValue, newValue) {}
-  }
+  },
 );
 //#endregion CLASS

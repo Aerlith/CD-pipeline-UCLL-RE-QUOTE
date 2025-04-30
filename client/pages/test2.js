@@ -36,6 +36,6 @@ window.customElements.define(
     attributeChangedCallback(name, oldValue, newValue) {}
 
     connectedCallback() {}
-  }
+  },
 );
 //#endregion CLASS

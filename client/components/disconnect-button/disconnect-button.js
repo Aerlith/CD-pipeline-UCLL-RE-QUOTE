@@ -41,6 +41,6 @@ window.customElements.define(
     createDisconnectButton(puckId) {
       this.$button.setAttribute("label", puckId);
     }
-  }
+  },
 );
 //#endregion CLASS

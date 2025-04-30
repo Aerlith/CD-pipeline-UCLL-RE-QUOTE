@@ -46,6 +46,6 @@ window.customElements.define(
         this.dispatchEvent(customEvent);
       });
     }
-  }
+  },
 );
 //#endregion CLASS

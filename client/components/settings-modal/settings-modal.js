@@ -68,7 +68,7 @@ window.customElements.define(
 
       $closeButton.addEventListener("click", (e) => {
         this.dispatchEvent(
-          new CustomEvent("closemodal", { bubbles: true, composed: true })
+          new CustomEvent("closemodal", { bubbles: true, composed: true }),
         );
       });
     }
@@ -79,6 +79,6 @@ window.customElements.define(
     }
 
     // test
-  }
+  },
 );
 //#endregion CLASS

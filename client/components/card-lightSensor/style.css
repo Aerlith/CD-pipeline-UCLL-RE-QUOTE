@@ -8,7 +8,9 @@
   max-height: 343px;
   border-radius: 50px;
   background: #e0e0e0;
-  box-shadow: 25px 25px 50px #bebebe, -25px -25px 50px #ffffff;
+  box-shadow:
+    25px 25px 50px #bebebe,
+    -25px -25px 50px #ffffff;
   padding: 20px;
   margin-left: 50px;
   font-family: "Inter", sans-serif;

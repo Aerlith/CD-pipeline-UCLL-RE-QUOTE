@@ -68,6 +68,6 @@ customElements.define(
     }
 
     attributeChangedCallback(name, oldValue, newValue) {}
-  }
+  },
 );
 //#endregion CLASS

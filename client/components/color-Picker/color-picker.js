@@ -89,7 +89,7 @@ window.customElements.define(
 
     connectedCallback() {
       const checkboxes = this._shadowRoot.querySelectorAll(
-        'input[type="checkbox"]'
+        'input[type="checkbox"]',
       );
 
       checkboxes.forEach((checkbox) => {
@@ -111,6 +111,6 @@ window.customElements.define(
         });
       });
     }
-  }
+  },
 );
 //#endregion CLASS

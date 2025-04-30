@@ -50,7 +50,7 @@ window.customElements.define(
         (connectedPucks) => {
           console.log(connectedPucks.detail.currentPuck.device);
           this.$deviceOverview.connectedPucks(
-            connectedPucks.detail.currentPuck.device
+            connectedPucks.detail.currentPuck.device,
           );
 
           this.$deviceOverview.addEventListener("open-settings", (e) => {
@@ -69,9 +69,9 @@ window.customElements.define(
               this._shadowRoot.removeChild($settingsModal);
             });
           });
-        }
+        },
       );
     }
-  }
+  },
 );
 //#endregion CLASS

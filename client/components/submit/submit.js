@@ -42,10 +42,10 @@ window.customElements.define(
           new CustomEvent("submit-clicked", {
             bubbles: true,
             composed: true,
-          })
+          }),
         );
       });
     }
-  }
+  },
 );
 //#endregion CLASS

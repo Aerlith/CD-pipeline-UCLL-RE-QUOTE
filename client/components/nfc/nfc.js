@@ -54,10 +54,10 @@ window.customElements.define(
             bubbles: true,
             composed: true,
             detail: { url: value },
-          })
+          }),
         );
       });
     }
-  }
+  },
 );
 //#endregion CLASS

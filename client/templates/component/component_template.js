@@ -34,6 +34,6 @@ window.customElements.define(
     connectedCallback() {
       //
     }
-  }
+  },
 );
 //#endregion CLASS

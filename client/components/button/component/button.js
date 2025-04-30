@@ -39,7 +39,7 @@ window.customElements.define(
       this._shadowRoot = this.attachShadow({ mode: "open" });
       this._shadowRoot.appendChild(template.content.cloneNode(true));
       this.$button = this._shadowRoot.querySelector(
-        ".bluetooth-button-container"
+        ".bluetooth-button-container",
       );
     }
 
@@ -53,6 +53,6 @@ window.customElements.define(
     connectedCallback() {
       //
     }
-  }
+  },
 );
 //#endregion CLASS

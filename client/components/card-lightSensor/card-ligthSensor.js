@@ -43,6 +43,6 @@ window.customElements.define(
       console.log("Light level: " + light * 100);
       return light;
     }
-  }
+  },
 );
 //#endregion CLASS

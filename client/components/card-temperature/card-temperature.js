@@ -59,7 +59,7 @@ window.customElements.define(
           if (dataTemperature) {
             // Extracting the temperature value from the response
             const extractedTemperature = parseFloat(
-              dataTemperature.split("=")[1]
+              dataTemperature.split("=")[1],
             ).toFixed(1);
             this.$temperature.innerHTML = `
             ${extractedTemperature} °C</p>`;
@@ -70,6 +70,6 @@ window.customElements.define(
         });
       }, 3000);
     }
-  }
+  },
 );
 //#endregion CLASS

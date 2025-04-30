@@ -46,6 +46,6 @@ window.customElements.define(
       this.$puckInfo.divMaker(connectedPuck.name, connectedPuck.id);
       // this.$puckInfo.divMaker(connectedPuck.name, connectedPuck.id);
     }
-  }
+  },
 );
 //#endregion CLASS

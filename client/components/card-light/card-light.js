@@ -81,6 +81,6 @@ window.customElements.define(
       console.log("LEDs ingesteld:", puckCommand);
     }
     //light card
-  }
+  },
 );
 //#endregion CLASS

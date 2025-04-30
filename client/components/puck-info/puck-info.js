@@ -63,10 +63,10 @@ window.customElements.define(
             bubbles: true,
             composed: true,
             detail: { deviceName: puckName },
-          })
+          }),
         );
       });
     }
-  }
+  },
 );
 //#endregion CLASS

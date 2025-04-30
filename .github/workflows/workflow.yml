@@ -4,11 +4,10 @@ on:
   push:
     branches: [testing, staging, main]
     paths:
-      - 'Server/**'
-      - 'client/**'
-      - 'Dockerfile'
-      - '.github/workflows/**'
-
+      - "Server/**"
+      - "client/**"
+      - "Dockerfile"
+      - ".github/workflows/**"
 
 jobs:
   testing:

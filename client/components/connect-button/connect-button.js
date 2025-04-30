@@ -98,7 +98,7 @@ window.customElements.define(
                 detail: { currentPuck },
                 bubbles: true,
                 composed: true,
-              })
+              }),
             );
           }
         } catch (e) {
@@ -109,6 +109,6 @@ window.customElements.define(
         }
       });
     }
-  }
+  },
 );
 //#endregion CLASS

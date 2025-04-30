@@ -42,6 +42,6 @@ window.customElements.define(
               save()`);
       }); //NFC
     }
-  }
+  },
 );
 //#endregion CLASS
