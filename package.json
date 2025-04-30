@@ -1,7 +1,7 @@
 {
   "name": "ci-cd",
   "version": "1.0.2",
-  "description": "CD Pipeline",
+  "description": "CD puck",
   "private": true,
   "scripts": {
     "test:all": "npm run test -w client && npm run test -w server",
