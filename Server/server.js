@@ -12,7 +12,7 @@ if (!process.env.ENVIRONMENT) {
 }
 
 //const couch = nano(process.env.COUCHDB_URL);
-const couch = nano("http://admin:ILoveKats123@localhost:5984");
+const couch = nano("http://admin:ILoveKats123@couchdb:5984");
 const customerCollection = couch.use("customer");
 const quoteCollection = couch.use("quote");
 
