@@ -1,0 +1,56 @@
+ body {
+     background-color: #f9f9f9;
+     padding: 2rem;
+ }
+h1 {
+     color: #002757;
+     text-align: center;
+     margin-bottom: 1.5rem;
+ }
+ form {
+     background-color: #ffffff;
+     border: 1px solid #e0e0e0;
+     padding: 2rem;
+     max-width: 500px;
+     margin: 0 auto;
+     margin-bottom: 50px;
+     border-radius: 8px;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+ }
+
+ label {
+     display: block;
+     margin-bottom: 0.5rem;
+     font-weight: bold;
+     color: #002757;
+ }
+
+ #newCustomer input {
+     width: 100%;
+     padding: 0.5rem;
+     margin-bottom: 1.5rem;
+     border: 1px solid #ccc;
+     border-radius: 6px;
+     font-size: 1rem;
+     transition: border-color 0.3s ease;
+ }
+
+ #newCustomer input:focus {
+     border-color: #b50027;
+     outline: none;
+ }
+
+ #newCustomer button {
+     background-color: #002757;
+     color: white;
+     padding: 0.7rem 1.5rem;
+     font-size: 1rem;
+     border: none;
+     border-radius: 6px;
+     cursor: pointer;
+ }
+
+ #newCustomer button:hover {
+     background-color: #B50027;
+     transition: background-color 1.5s ease;
+ }

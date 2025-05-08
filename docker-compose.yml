@@ -1,0 +1,22 @@
+version: "3.8"
+volumes:
+  re-qoute-couch-db_data:
+    driver: local
+  re-qoute-couch-db_config:
+    driver: local
+  re-qoute-couch-db_log:
+    driver: local
+services:
+  couchdb:
+    image: couchdb:latest
+    container_name: re-qoute-couch-db
+    restart: always
+    ports:
+      - 2026:5984
+    volumes:
+      - re-qoute-couch-db_data:/opt/couchdb/data
+      - re-qoute-couch-db_config:/opt/couchdb/etc/local.d
+      - re-qoute-couch-db_log:/opt/couchdb/var/log
+    environment:
+      COUCHDB_USER:
+      COUCHDB_PASSWORD:

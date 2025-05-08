@@ -1,0 +1,7 @@
+# Local dev files
+.dev/
+*.tar.gz
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
