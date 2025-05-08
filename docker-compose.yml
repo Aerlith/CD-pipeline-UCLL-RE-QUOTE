@@ -18,5 +18,5 @@ services:
       - re-qoute-couch-db_config:/opt/couchdb/etc/local.d
       - re-qoute-couch-db_log:/opt/couchdb/var/log
     environment:
-      COUCHDB_USER:
-      COUCHDB_PASSWORD:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: password
