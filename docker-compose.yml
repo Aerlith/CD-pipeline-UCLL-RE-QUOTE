@@ -1,11 +1,4 @@
 version: "3.8"
-volumes:
-  re-qoute-couch-db_data:
-    driver: local
-  re-qoute-couch-db_config:
-    driver: local
-  re-qoute-couch-db_log:
-    driver: local
 services:
   couchdb:
     image: couchdb:latest
@@ -13,10 +6,23 @@ services:
     restart: always
     ports:
       - 2026:5984
-    volumes:
-      - re-qoute-couch-db_data:/opt/couchdb/data
-      - re-qoute-couch-db_config:/opt/couchdb/etc/local.d
-      - re-qoute-couch-db_log:/opt/couchdb/var/log
     environment:
       COUCHDB_USER: admin
-      COUCHDB_PASSWORD: password
+      COUCHDB_PASSWORD: ILoveKats123
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+
+  app:
+    image: evilbyte/cdskill:latest
+    container_name: cdskill
+    restart: always
+    ports:
+      - 2025:2025
+    depends_on:
+      - couchdb
+    environment:
+      COUCHDB_URL: http://admin:ILoveKats123@couchdb:5984
+      ENVIRONMENT: production
+
+volumes:
+  couchdb_data:
