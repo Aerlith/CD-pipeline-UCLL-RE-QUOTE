@@ -1,86 +1,86 @@
 footer {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    border-top: 1px solid #888;
-    text-align: center;
-    font-size: 0.9rem;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  border-top: 1px solid #888;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .social-bar .icon-link img[src*="Facebook-logo"],
 .social-bar .icon-link img[src*="linkedin-logo"] {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 footer .info {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 footer .info a {
-    text-decoration: none;
-    color: #002757;
+  text-decoration: none;
+  color: #002757;
 }
 
 footer .info a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .social-bar {
-    padding: 10px 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    border-radius: 5px;
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-radius: 5px;
 }
 
 .social-bar .icon-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #002757;
-    font-size: 0.85rem;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #002757;
+  font-size: 0.85rem;
+  text-decoration: none;
 }
 
 .icon-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .social-bar img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .social-bar .logo-wide img {
-    height: 40px;
-    width: auto;
+  height: 40px;
+  width: auto;
 }
 
 /* Responsive styles */
 @media (max-width: 600px) {
-    footer {
-        font-size: 0.8rem;
-        padding: 15px 10px;
-    }
+  footer {
+    font-size: 0.8rem;
+    padding: 15px 10px;
+  }
 
-    .social-bar {
-        flex-direction: column;
-        gap: 15px;
-    }
+  .social-bar {
+    flex-direction: column;
+    gap: 15px;
+  }
 
-    .social-bar .icon-link {
-        font-size: 0.9rem;
-    }
+  .social-bar .icon-link {
+    font-size: 0.9rem;
+  }
 
-    .social-bar img {
-        width: 28px;
-        height: 28px;
-    }
+  .social-bar img {
+    width: 28px;
+    height: 28px;
+  }
 
-    .social-bar .logo-wide img {
-        height: 30px;
-    }
+  .social-bar .logo-wide img {
+    height: 30px;
+  }
 }

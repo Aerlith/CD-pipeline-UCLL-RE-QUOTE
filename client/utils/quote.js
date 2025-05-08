@@ -1,5 +1,11 @@
 export class Quote {
-  constructor(customerName, customerAdress, quoteDate, expirationDate, status = 'Pending') {
+  constructor(
+    customerName,
+    customerAdress,
+    quoteDate,
+    expirationDate,
+    status = "Pending",
+  ) {
     this.customerName = customerName;
     this.customerAdress = customerAdress;
     this.quoteDate = quoteDate;
@@ -15,7 +21,7 @@ export class Quote {
       description,
       unitPrice,
       quantity,
-      total: unitPrice * quantity
+      total: unitPrice * quantity,
     };
     this.items.push(item);
   }

@@ -1,4 +1,5 @@
-``; "use strict";
+``;
+("use strict");
 
 //#region IMPORTS
 
@@ -8,8 +9,9 @@
 
 //#region CLASS
 
-window.customElements.define('router-χ', class extends HTMLElement {
-
+window.customElements.define(
+  "router-χ",
+  class extends HTMLElement {
     // constructor() {
 
     //     super();
@@ -25,15 +27,10 @@ window.customElements.define('router-χ', class extends HTMLElement {
     // component attributes
 
     static get observedAttributes() {
-
-        return [];
-
+      return [];
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-
-    }
-
+    attributeChangedCallback(name, oldValue, newValue) {}
 
     /**
 
@@ -56,15 +53,11 @@ window.customElements.define('router-χ', class extends HTMLElement {
     */
 
     get outlet() {
-
-        return this.querySelector("outlet-χ");
-
+      return this.querySelector("outlet-χ");
     }
 
     get root() {
-
-        return window.location.pathname;
-
+      return window.location.pathname;
     }
 
     /**
@@ -78,70 +71,63 @@ window.customElements.define('router-χ', class extends HTMLElement {
     */
 
     get routes() {
+      return Array.from(this.querySelectorAll("route-χ"))
 
-        return Array.from(this.querySelectorAll("route-χ"))
+        .filter((node) => node.parentNode === this)
 
-            .filter(node => node.parentNode === this)
+        .map((r) => ({
+          path: r.getAttribute("path"),
 
-            .map(r => ({
+          // Optional: document title
 
-                path: r.getAttribute("path"),
+          title: r.getAttribute("title"),
 
-                // Optional: document title
+          // name of the web component the should be displayed
 
-                title: r.getAttribute("title"),
+          component: r.getAttribute("component"),
 
-                // name of the web component the should be displayed
+          // Bundle path if lazy loading the component
 
-                component: r.getAttribute("component"),
-
-                // Bundle path if lazy loading the component
-
-                resourceUrl: r.getAttribute("resourceUrl")
-
-            }));
-
+          resourceUrl: r.getAttribute("resourceUrl"),
+        }));
     }
 
     // Debug method to check routes
 
     logRoutes() {
-
-        console.log("Available routes:", this.routes);
-
+      console.log("Available routes:", this.routes);
     }
 
     connectedCallback() {
+      this.bindRoutes(this);
 
-        this.bindRoutes(this);
+      this.navigate(
+        window.location.pathname +
+          window.location.search +
+          window.location.hash,
+      );
 
-        this.navigate(window.location.pathname + window.location.search + window.location.hash);
-
-        window.addEventListener("popstate", this._handlePopstate);
-
+      window.addEventListener("popstate", this._handlePopstate);
     }
 
     disconnectedCallback() {
-
-        window.removeEventListener("popstate", this._handlePopstate);
-
+      window.removeEventListener("popstate", this._handlePopstate);
     }
 
     loaded() {
-
-        return true;
-
+      return true;
     }
 
     _handlePopstate = () => {
-
-        this.navigate(window.location.pathname + window.location.search + window.location.hash);
-
+      this.navigate(
+        window.location.pathname +
+          window.location.search +
+          window.location.hash,
+      );
     };
 
     bindRoutes(elem) {
-
-        /**
+      /**
 
          * Find all child link elements with route attribute to update the
 
@@ -155,68 +141,53 @@ window.customElements.define('router-χ', class extends HTMLElement {
 
         */
 
-        elem.querySelectorAll("a[route]").forEach(link => {
+      elem.querySelectorAll("a[route]").forEach((link) => {
+        const target = link.getAttribute("route");
 
-            const target = link.getAttribute("route");
+        if (target === "undefined") return;
 
-            if (target === 'undefined') return;
+        link.setAttribute("href", target);
 
-            link.setAttribute("href", target);
+        link.onclick = (e) => {
+          e.preventDefault();
 
-            link.onclick = e => {
+          this.navigate(target);
+        };
+      });
 
-                e.preventDefault();
+      elem.shadowRoot?.querySelectorAll("a[route]").forEach((link) => {
+        const target = link.getAttribute("route");
 
-                this.navigate(target);
+        if (target === "undefined") return;
 
-            };
+        link.setAttribute("href", target);
 
-        });
+        link.onclick = (e) => {
+          e.preventDefault();
 
-        elem.shadowRoot?.querySelectorAll("a[route]").forEach(link => {
-
-            const target = link.getAttribute("route");
-
-            if (target === 'undefined') return;
-
-            link.setAttribute("href", target);
-
-            link.onclick = e => {
-
-                e.preventDefault();
-
-                this.navigate(target);
-
-            };
-
-        });
-
+          this.navigate(target);
+        };
+      });
     }
 
     navigate(url) {
+      console.log("Navigating to:", url);
 
-        console.log("Navigating to:", url);
+      console.log("Available routes:", this.routes);
 
-        console.log("Available routes:", this.routes);
+      const matchedRoute = match(this.routes, url);
 
-        const matchedRoute = match(this.routes, url);
+      console.log("Matched route:", matchedRoute);
 
-        console.log("Matched route:", matchedRoute);
+      if (matchedRoute !== null) {
+        this.activeRoute = matchedRoute;
 
-        if (matchedRoute !== null) {
+        window.history.pushState(null, null, url);
 
-            this.activeRoute = matchedRoute;
-
-            window.history.pushState(null, null, url);
-
-            this.update();
-
-        } else {
-
-            console.warn("No matching route found for:", url);
-
-        }
-
+        this.update();
+      } else {
+        console.warn("No matching route found for:", url);
+      }
     }
 
     /**
@@ -228,52 +199,44 @@ window.customElements.define('router-χ', class extends HTMLElement {
     */
 
     update() {
+      const {
+        component,
 
-        const {
+        title,
 
-            component,
+        params = {},
 
-            title,
+        resourceUrl,
+      } = this.activeRoute;
 
-            params = {},
+      console.log("Active Route:", this.activeRoute);
 
-            resourceUrl
+      console.log("ResourceUrl:", resourceUrl);
 
-        } = this.activeRoute;
+      if (component) {
+        // Remove all child nodes under outlet element
 
-        console.log("Active Route:", this.activeRoute);
+        while (this.outlet.firstChild) {
+          const child = this.outlet.firstChild;
 
-        console.log("ResourceUrl:", resourceUrl);
+          console.log(child);
 
-        if (component) {
+          // if (child instanceof Base) {
 
-            // Remove all child nodes under outlet element
+          //     child.beforeDisconnectedCallback().then()
 
-            while (this.outlet.firstChild) {
+          // }
 
-                const child = this.outlet.firstChild;
+          this.outlet.removeChild(child);
+        }
 
-                console.log(child);
+        const updateView = () => {
+          const view = document.createElement(component);
 
-                // if (child instanceof Base) {
+          document.title = title || document.title;
 
-                //     child.beforeDisconnectedCallback().then()
-
-                // }
-
-                this.outlet.removeChild(child);
-
-            }
-
-            const updateView = () => {
-
-                const view = document.createElement(component);
-
-                document.title = title || document.title;
-
-                for (let key in params) {
-
-                    /**
+          for (let key in params) {
+            /**
 
                      * all dynamic param value will be passed
 
@@ -283,81 +246,60 @@ window.customElements.define('router-χ', class extends HTMLElement {
 
                     */
 
-                    if (key !== "*") view.setAttribute(key, params[key]);
+            if (key !== "*") view.setAttribute(key, params[key]);
+          }
 
-                }
+          this.outlet.appendChild(view);
 
-                this.outlet.appendChild(view);
+          // Update the route links once the DOM is updated
 
-                // Update the route links once the DOM is updated
+          this.bindRoutes(this);
 
-                this.bindRoutes(this);
+          const ev = new CustomEvent("observer-notify", {
+            detail: { key: "route-changed", value: this.activeRoute },
 
-                const ev = new CustomEvent('observer-notify', {
+            bubbles: true,
 
-                    detail: { key: 'route-changed', value: this.activeRoute },
+            composed: true,
+          });
 
-                    bubbles: true,
+          this.dispatchEvent(ev);
+        };
 
-                    composed: true
+        // Fix: Use resourceUrl correctly by checking if it exists as a string
 
-                });
+        if (resourceUrl) {
+          console.log("Loading from provided resourceUrl:", resourceUrl);
 
-                this.dispatchEvent(ev);
+          import(resourceUrl).then(updateView).catch((error) => {
+            console.error("Failed to load component from resourceUrl:", error);
+          });
+        } else {
+          let defaultResourceUrl = "/pages/" + component + ".js";
 
-            };
+          console.log("Loading from default resourceUrl:", defaultResourceUrl);
 
-            // Fix: Use resourceUrl correctly by checking if it exists as a string
-
-            if (resourceUrl) {
-
-                console.log("Loading from provided resourceUrl:", resourceUrl);
-
-                import(resourceUrl).then(updateView).catch(error => {
-
-                    console.error("Failed to load component from resourceUrl:", error);
-
-                });
-
-            } else {
-
-                let defaultResourceUrl = "/pages/" + component + ".js";
-
-                console.log("Loading from default resourceUrl:", defaultResourceUrl);
-
-                import(defaultResourceUrl).then(updateView).catch(error => {
-
-                    console.error("Failed to load component from default path:", error);
-
-                });
-
-            }
-
+          import(defaultResourceUrl).then(updateView).catch((error) => {
+            console.error("Failed to load component from default path:", error);
+          });
         }
-
+      }
     }
 
     go(url) {
-
-        this.navigate(url);
-
+      this.navigate(url);
     }
 
     back() {
-
-        window.history.go(-1);
-
+      window.history.go(-1);
     }
-
-});
-
+  },
+);
 
 let paramRe = /^:(.+)/;
 
 function segmentize(uri) {
-
-    return uri.replace(/(^\/+|\/+$)/g, "").split("/");
-
+  return uri.replace(/(^\/+|\/+$)/g, "").split("/");
 }
 
 /**
@@ -383,136 +325,114 @@ function segmentize(uri) {
 */
 
 export function match(routes, fullUri) {
+  let match;
 
-    let match;
+  const [uri] = fullUri.split("#");
 
-    const [uri] = fullUri.split("#");
+  const [uriPathname] = uri.split("?");
 
-    const [uriPathname] = uri.split("?");
+  const uriSegments = segmentize(uriPathname);
 
-    const uriSegments = segmentize(uriPathname);
+  console.log("Matching segments:", uriSegments);
 
-    console.log("Matching segments:", uriSegments);
+  for (let i = 0; i < routes.length; i++) {
+    const route = routes[i];
 
-    for (let i = 0; i < routes.length; i++) {
+    const routeSegments = segmentize(route.path);
 
-        const route = routes[i];
+    console.log(`Checking route ${route.path} with segments:`, routeSegments);
 
-        const routeSegments = segmentize(route.path);
+    // Skip if segments length doesn't match and there's no wildcard
 
-        console.log(`Checking route ${route.path} with segments:`, routeSegments);
+    if (
+      uriSegments.length !== routeSegments.length &&
+      !routeSegments.includes("*") &&
+      !routeSegments.some((segment) => segment.startsWith(":"))
+    ) {
+      console.log(`Skipping route ${route.path} - segment length mismatch`);
 
-        // Skip if segments length doesn't match and there's no wildcard
-
-        if (uriSegments.length !== routeSegments.length &&
-
-            !routeSegments.includes("*") &&
-
-            !routeSegments.some(segment => segment.startsWith(":"))) {
-
-            console.log(`Skipping route ${route.path} - segment length mismatch`);
-
-            continue;
-
-        }
-
-        const max = Math.max(uriSegments.length, routeSegments.length);
-
-        let index = 0;
-
-        let missed = false;
-
-        let params = {};
-
-        for (; index < max; index++) {
-
-            const uriSegment = uriSegments[index];
-
-            const routeSegment = routeSegments[index];
-
-            // Handle end of segments
-
-            if (routeSegment === undefined) {
-
-                missed = true;
-
-                break;
-
-            }
-
-            if (uriSegment === undefined) {
-
-                missed = true;
-
-                break;
-
-            }
-
-            // Handle wildcard
-
-            const fallback = routeSegment === "*";
-
-            if (fallback) {
-
-                params["*"] = uriSegments
-
-                    .slice(index)
-
-                    .map(decodeURIComponent)
-
-                    .join("/");
-
-                break;
-
-            }
-
-            // Handle dynamic parameter
-
-            let dynamicMatch = paramRe.exec(routeSegment);
-
-            if (dynamicMatch) {
-
-                console.log(`Found dynamic segment: ${routeSegment} matches ${uriSegment}`);
-
-                let value = decodeURIComponent(uriSegment);
-
-                params[dynamicMatch[1]] = value;
-
-            }
-
-            // Handle static segment
-
-            else if (routeSegment !== uriSegment) {
-
-                console.log(`Mismatch: ${routeSegment} ≠ ${uriSegment}`);
-
-                missed = true;
-
-                break;
-
-            }
-
-        }
-
-        if (!missed) {
-
-            console.log(`Found match: ${route.path} with params:`, params);
-
-            match = {
-
-                params,
-
-                ...route
-
-            };
-
-            break;
-
-        }
-
+      continue;
     }
 
-    return match || null;
+    const max = Math.max(uriSegments.length, routeSegments.length);
 
+    let index = 0;
+
+    let missed = false;
+
+    let params = {};
+
+    for (; index < max; index++) {
+      const uriSegment = uriSegments[index];
+
+      const routeSegment = routeSegments[index];
+
+      // Handle end of segments
+
+      if (routeSegment === undefined) {
+        missed = true;
+
+        break;
+      }
+
+      if (uriSegment === undefined) {
+        missed = true;
+
+        break;
+      }
+
+      // Handle wildcard
+
+      const fallback = routeSegment === "*";
+
+      if (fallback) {
+        params["*"] = uriSegments
+
+          .slice(index)
+
+          .map(decodeURIComponent)
+
+          .join("/");
+
+        break;
+      }
+
+      // Handle dynamic parameter
+
+      let dynamicMatch = paramRe.exec(routeSegment);
+
+      if (dynamicMatch) {
+        console.log(
+          `Found dynamic segment: ${routeSegment} matches ${uriSegment}`,
+        );
+
+        let value = decodeURIComponent(uriSegment);
+
+        params[dynamicMatch[1]] = value;
+      }
+
+      // Handle static segment
+      else if (routeSegment !== uriSegment) {
+        console.log(`Mismatch: ${routeSegment} ≠ ${uriSegment}`);
+
+        missed = true;
+
+        break;
+      }
+    }
+
+    if (!missed) {
+      console.log(`Found match: ${route.path} with params:`, params);
+
+      match = {
+        params,
+
+        ...route,
+      };
+
+      break;
+    }
+  }
+
+  return match || null;
 }
-

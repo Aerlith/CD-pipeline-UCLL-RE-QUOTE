@@ -1,39 +1,38 @@
-
 h1 {
-    color: #003A63;
-    margin-bottom: 16px;
-    text-align: center;
+  color: #003a63;
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 h2 {
-    margin-bottom: 4px;
-    color: #003A63;
+  margin-bottom: 4px;
+  color: #003a63;
 }
 
 .customer-card {
-    border: 1px solid #ddd;
-    padding: 16px;
-    margin-left: 100px;
-    margin-right: 100px;
-    margin-bottom: 50px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 50px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
 }
 
 .customer-card button {
-    background-color: #002757;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 8px;
-    transition: background-color 0.3s ease;
+  background-color: #002757;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 8px;
+  transition: background-color 0.3s ease;
 }
 
 .customer-card button:hover {
-    background-color: #B50027;
-    transition: background-color 1.5s ease;
+  background-color: #b50027;
+  transition: background-color 1.5s ease;
 }

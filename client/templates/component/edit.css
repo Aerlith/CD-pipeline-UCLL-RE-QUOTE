@@ -1,58 +1,58 @@
 #edit-form {
-    background-color: #FFFFFF;
-    border: 1px solid #E0E0E0;
-    padding: 2rem;
-    max-width: 500px;
-    margin: 2rem auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    font-family: Arial, sans-serif;
-    color: #333333;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  color: #333333;
 }
 
 h1 {
-    color: #003A63;
-    text-align: center;
-    margin-bottom: 1.5rem;
+  color: #003a63;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 label {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.3rem;
-    font-weight: bold;
-    color: #003A63;
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+  color: #003a63;
 }
 
 input {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #E0E0E0;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
 }
 
 input {
-    border-color: #B50027;
-    outline: none;
+  border-color: #b50027;
+  outline: none;
 }
 
 button {
-    display: block;
-    width: 100%;
-    margin-top: 1.5rem;
-    padding: 0.8rem;
-    background-color: #003A63;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  background-color: #003a63;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #B50027;
-    transition: background-color 1.5s ease;
+  background-color: #b50027;
+  transition: background-color 1.5s ease;
 }

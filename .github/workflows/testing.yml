@@ -1,0 +1,71 @@
+name: Testing
+
+on:
+  workflow_call:
+    outputs:
+      has_failures:
+        description: "Boolean flag for failures"
+        value: ${{ jobs.testing.outputs.has_failures }}
+
+jobs:
+  testing:
+    name: testing
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      has_failures: ${{ steps.failures.outputs.has_failures }}
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        id: lint
+        run: npm run lint
+
+      - name: Run Prettier Check
+        id: format_check
+        run: npm run format:check
+
+      - name: Run Server Tests with Coverage
+        id: server_tests
+        run: npm run test:coverage -w Server
+
+      - name: Run Client Tests with Coverage
+        id: client_tests
+        run: npm run test:coverage -w client
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        id: coverage
+        if: always()
+        with:
+          name: coverage-report-${{ matrix.node-version }}
+          path: |
+            Server/coverage/
+            client/coverage/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Detect Failures
+        id: failures
+        if: always()
+        run: |
+          has_failures=false
+          if [ "${{ steps.lint.outcome }}" != "success" ]; then has_failures=true; fi
+          if [ "${{ steps.format_check.outcome }}" != "success" ]; then has_failures=true; fi
+          if [ "${{ steps.server_tests.outcome }}" != "success" ]; then has_failures=true; fi
+          if [ "${{ steps.client_tests.outcome }}" != "success" ]; then has_failures=true; fi
+          echo "has_failures=$has_failures" >> $GITHUB_OUTPUT

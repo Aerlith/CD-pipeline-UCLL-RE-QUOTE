@@ -1,37 +1,39 @@
 ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 li {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, background-color 0.2s;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
 }
 
 li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #e3f2fd;
-    /* lichte blauw hover */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #e3f2fd;
+  /* lichte blauw hover */
 }
 
 strong {
-    font-size: 1.1em;
-    display: block;
-    margin-bottom: 5px;
-    color: #002757;
+  font-size: 1.1em;
+  display: block;
+  margin-bottom: 5px;
+  color: #002757;
 }
 
 h2,
 h3 {
-    margin-top: 20px;
-    color: #002757;
+  margin-top: 20px;
+  color: #002757;
 }
 
 .recent-quotes,
@@ -39,14 +41,14 @@ h3 {
 .all-quotes,
 .sum-quotes,
 .avg-quotes {
-    margin-top: 30px;
-    background-color: #9FDAF9;
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
+  margin-top: 30px;
+  background-color: #9fdaf9;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 }
 
 .recent-quotes h3,
@@ -54,100 +56,100 @@ h3 {
 .all-quotes h3,
 .sum-quotes h3,
 .avg-quotes h3 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    text-align: center;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 h3 {
-    font-size: 1.5rem;
-    color: #002757;
+  font-size: 1.5rem;
+  color: #002757;
 }
 
 .offer-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    width: 100%;
-    flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  width: 100%;
+  flex-direction: row;
 }
 
 .offer-card {
-    background: #fafafa;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    margin-bottom: 12px;
-    transition: all 0.2s ease;
-    flex: 1 1 calc(33.333% - 30px);
-    box-sizing: border-box;
-    max-width: 300px;
-    min-width: 250px;
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+  flex: 1 1 calc(33.333% - 30px);
+  box-sizing: border-box;
+  max-width: 300px;
+  min-width: 250px;
 }
 
 .offer-card:hover {
-    background-color: #f1f8ff;
-    transform: translateY(-3px);
+  background-color: #f1f8ff;
+  transform: translateY(-3px);
 }
 
 .offer-card strong {
-    font-size: 1.1em;
-    color: #002757
+  font-size: 1.1em;
+  color: #002757;
 }
 
 .offer-card p {
-    margin: 5px 0 0 0;
-    color: #002757;
-    font-size: 0.95rem;
+  margin: 5px 0 0 0;
+  color: #002757;
+  font-size: 0.95rem;
 }
 
 .no-quotes {
-    text-align: center;
-    color: #002757 ;
-    font-style: italic;
-    padding: 10px;
+  text-align: center;
+  color: #002757;
+  font-style: italic;
+  padding: 10px;
 }
 
 .statistics-section {
-    margin-top: 40px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
+  margin-top: 40px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .statistics-section h2 {
-    font-size: 2rem;
-    color: #002757;
-    margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #002757;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 600px) {
-    .offer-list {
-        flex-direction: row;
-        align-items: center;
-    }
+  .offer-list {
+    flex-direction: row;
+    align-items: center;
+  }
 
-    .offer-card {
-        flex: 1 1 100%;
-        max-width: 90%;
-    }
+  .offer-card {
+    flex: 1 1 100%;
+    max-width: 90%;
+  }
 
-    .recent-quotes,
-    .pending-offers,
-    .all-quotes,
-    .sum-quotes,
-    .avg-quotes {
-        padding: 0px;
-    }
+  .recent-quotes,
+  .pending-offers,
+  .all-quotes,
+  .sum-quotes,
+  .avg-quotes {
+    padding: 0px;
+  }
 
-    h2,
-    h3 {
-        font-size: 1.25rem;
-    }
+  h2,
+  h3 {
+    font-size: 1.25rem;
+  }
 
-    .statistics-section h2 {
-        font-size: 1.5rem;
-    }
+  .statistics-section h2 {
+    font-size: 1.5rem;
+  }
 }

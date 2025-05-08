@@ -1,0 +1,41 @@
+name: Notify Status
+
+on:
+  workflow_call:
+    inputs:
+      success:
+        required: true
+        type: boolean
+        description: "Whether the overall calling pipeline succeeded"
+jobs:
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    permissions:
+      contents: none
+
+    steps:
+      - name: Discord Notification
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: CI/CD Bot
+          color: ${{ inputs.success == true && '#00FF00' || '#FF0000' }}
+          message: |
+            ${{ inputs.success == true && '**Pipeline Succeeded**' || '**Pipeline Failed**' }} on `${{ github.repository }}` `${{ github.ref_name }}`
+            **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) by **${{ github.actor }}**
+
+      - name: Email Notification
+        uses: dawidd6/action-send-mail@v5
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{secrets.EMAIL_SENDER }}
+          password: ${{secrets.EMAIL_PASSWORD}}
+          subject: "${{ inputs.success == true && 'Pipeline succeeded' || 'Pipeline Failed' }} on ${{ github.repository }}"
+          to: ${{ vars.EMAIL_RECIPIENTS }}
+          from: ${{ secrets.EMAIL_SENDER }}
+          body: |
+            ${{ inputs.success == true && 'Pipeline Succeeded' || 'Pipeline Failed' }} on ${{ github.repository }} ${{ github.ref_name }}
+            Commit: https://github.com/${{ github.repository }}/commit/${{ github.sha }} 
+            Author: ${{ github.actor }}

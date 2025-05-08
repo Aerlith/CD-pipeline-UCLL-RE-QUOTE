@@ -1,0 +1,39 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, testing, staging]
+    paths:
+      - "Server/**"
+      - "client/**"
+      - "Dockerfile"
+      - ".github/workflows/**"
+      - "**/package.json"
+      - "**/package-lock.json"
+
+jobs:
+  testing:
+    name: Testing
+    uses: ./.github/workflows/testing.yml
+    permissions:
+      contents: read
+
+  build_push:
+    name: Build & Push Docker Image
+    needs: testing
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.testing.outputs.has_failures != 'true'
+    uses: ./.github/workflows/docker-build.yml
+    permissions:
+      contents: read
+    secrets: inherit
+
+  notify:
+    name: Notify Status
+    needs: [testing, build_push]
+    if: always() && github.event_name != 'pull_request'
+    uses: ./.github/workflows/notify.yml
+    with:
+      success: ${{ needs.testing.outputs.has_failures != 'true' && (needs.build_push.result == 'success' || needs.build_push.result == 'skipped') }}
+    secrets: inherit

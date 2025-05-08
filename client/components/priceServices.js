@@ -2,8 +2,8 @@
 //#endregion IMPORTS
 
 //#region TEMPLATE
-let template = document.createElement('template');
-template.innerHTML = /*html*/`
+let template = document.createElement("template");
+template.innerHTML = /*html*/ `
   <style>
   .pricing-table {
     width: 80%;
@@ -83,19 +83,22 @@ template.innerHTML = /*html*/`
 //#endregion TEMPLATE
 
 //#region CLASS
-window.customElements.define('price-services-ɦ', class extends HTMLElement {
+window.customElements.define(
+  "price-services-ɦ",
+  class extends HTMLElement {
     constructor() {
-        super();
-        this._shadowRoot = this.attachShadow({ 'mode': 'open' });
-        this._shadowRoot.appendChild(template.content.cloneNode(true));
+      super();
+      this._shadowRoot = this.attachShadow({ mode: "open" });
+      this._shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
     static get observedAttributes() {
-        return [];
+      return [];
     }
 
-    attributeChangedCallback(name, oldValue, newValue) { }
+    attributeChangedCallback(name, oldValue, newValue) {}
 
-    connectedCallback() { }
-});
+    connectedCallback() {}
+  },
+);
 //#endregion CLASS

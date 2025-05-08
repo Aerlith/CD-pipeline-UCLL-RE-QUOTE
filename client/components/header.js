@@ -1,10 +1,10 @@
 //#region IMPORTS
-import './interface.js';
-import './priceServices.js';
+import "./interface.js";
+import "./priceServices.js";
 //#endregion IMPORTS
 
 //#region TEMPLATE
-let template = document.createElement('template');
+let template = document.createElement("template");
 template.innerHTML = /* html */ `
 <style> 
 .header {
@@ -112,74 +112,75 @@ nav a.active {
 
 //#region CLASS
 
-window.customElements.define('header-ɦ', class extends HTMLElement {
+window.customElements.define(
+  "header-ɦ",
+  class extends HTMLElement {
     constructor() {
-        super();
-        this._shadowRoot = this.attachShadow({ 'mode': 'open' });
-        this._shadowRoot.appendChild(template.content.cloneNode(true));
+      super();
+      this._shadowRoot = this.attachShadow({ mode: "open" });
+      this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-        // route element als dependency
-        // router = inject router
-        // router.bindRoutes(this);
-        // links moeten met <a route"=/example">element</a>
+      // route element als dependency
+      // router = inject router
+      // router.bindRoutes(this);
+      // links moeten met <a route"=/example">element</a>
     }
 
     connectedCallback() {
-        const links = this._shadowRoot.querySelectorAll('nav a');
-        const dynamicContent = this._shadowRoot.querySelector('#content');
+      const links = this._shadowRoot.querySelectorAll("nav a");
+      const dynamicContent = this._shadowRoot.querySelector("#content");
 
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
 
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
+          const route = link.getAttribute("route");
+          dynamicContent.innerHTML = ""; // Verwijder altijd de bestaande inhoud
 
-                const route = link.getAttribute('route');
-                dynamicContent.innerHTML = ''; // Verwijder altijd de bestaande inhoud
+          if (route === "/about") {
+            const interfaceElement = document.createElement("interface-ɦ");
+            dynamicContent.appendChild(interfaceElement);
+          } else if (route === "/") {
+            const defaultWidgets = document.createElement("div");
+            defaultWidgets.innerHTML = `<recent_quotes-ɦ></recent_quotes-ɦ><quick_stats-ɦ></quick_stats-ɦ>`;
+            dynamicContent.appendChild(defaultWidgets);
+          } else if (route === "/contact") {
+            const newCustomer = document.createElement("new-customer-ɦ");
+            dynamicContent.appendChild(newCustomer);
+          } else if (route === "/faq") {
+            const faqContent = document.createElement("overview-customer-ɦ");
+            dynamicContent.appendChild(faqContent);
+          } else if (route === "/price") {
+            const faqContent = document.createElement("price-services-ɦ");
+            dynamicContent.appendChild(faqContent);
+          }
 
-                if (route === '/about') {
-                    const interfaceElement = document.createElement('interface-ɦ');
-                    dynamicContent.appendChild(interfaceElement);
-                } else if (route === '/') {
-                    const defaultWidgets = document.createElement('div');
-                    defaultWidgets.innerHTML = `<recent_quotes-ɦ></recent_quotes-ɦ><quick_stats-ɦ></quick_stats-ɦ>`;
-                    dynamicContent.appendChild(defaultWidgets);
-                } else if (route === '/contact') {
-                    const newCustomer = document.createElement('new-customer-ɦ');
-                    dynamicContent.appendChild(newCustomer);
-                } else if (route === '/faq') {
-                    const faqContent = document.createElement('overview-customer-ɦ');
-                    dynamicContent.appendChild(faqContent);
-                }
-                else if (route === '/price') {
-                    const faqContent = document.createElement('price-services-ɦ');
-                    dynamicContent.appendChild(faqContent);
-                }
-
-                links.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            });
+          links.forEach((l) => l.classList.remove("active"));
+          link.classList.add("active");
         });
+      });
     }
 
     static get observedAttributes() {
-        return [];
+      return [];
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-
-    }
+    attributeChangedCallback(name, oldValue, newValue) {}
     navigate(route) {
-        console.log(route);
-        this.dispatchEvent(new CustomEvent('ʤ', {
-            bubbles: true,
-            cancelable: false,
-            composed: true,
-            detail: {
-                channel: "go",
-                data: route
-            }
-        }));
+      console.log(route);
+      this.dispatchEvent(
+        new CustomEvent("ʤ", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          detail: {
+            channel: "go",
+            data: route,
+          },
+        }),
+      );
     }
-});
+  },
+);
 
 //#endregion CLASS

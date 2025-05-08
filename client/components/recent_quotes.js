@@ -1,10 +1,10 @@
 //#region IMPORTS
-import { Quote } from '/utils/quote.js';
+import { Quote } from "/utils/quote.js";
 
 //#endregion IMPORTS
 
 //#region TEMPLATE
-let template = document.createElement('template');
+let template = document.createElement("template");
 template.innerHTML = /* html */ `
 <style> @import './templates/component/style.css';</style>
 
@@ -15,78 +15,78 @@ template.innerHTML = /* html */ `
 //#endregion TEMPLATE
 
 //#region CLASS
-window.customElements.define('recent_quotes-ɦ', class extends HTMLElement {
-  constructor() {
-    super();
-    this._shadowRoot = this.attachShadow({ 'mode': 'open' });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+window.customElements.define(
+  "recent_quotes-ɦ",
+  class extends HTMLElement {
+    constructor() {
+      super();
+      this._shadowRoot = this.attachShadow({ mode: "open" });
+      this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-    // route element als dependency
-    // router = inject router
-    // router.bindRoutes(this);
-    // links moeten met <a route"=/example">element</a>
-    this._quotes = [];
-  }
-
-  connectedCallback() {
-  }
-
-  set quotes(data) {
-    this._quotes = data;
-    this.render();
-  }
-
-  render() {
-    const list = this._shadowRoot.getElementById('quote-list');
-    list.innerHTML = '';
-
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-    const recentQuotes = this._quotes.filter(q =>
-      new Date(q.quoteDate) > oneMonthAgo
-    );
-
-    if (recentQuotes.length === 0) {
-      list.innerHTML = '<li>No recent quotes found.</li>';
-      return;
+      // route element als dependency
+      // router = inject router
+      // router.bindRoutes(this);
+      // links moeten met <a route"=/example">element</a>
+      this._quotes = [];
     }
 
-    for (const quote of recentQuotes) {
-      const li = document.createElement('li');
-      li.innerHTML = `
+    connectedCallback() {}
+
+    set quotes(data) {
+      this._quotes = data;
+      this.render();
+    }
+
+    render() {
+      const list = this._shadowRoot.getElementById("quote-list");
+      list.innerHTML = "";
+
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+      const recentQuotes = this._quotes.filter(
+        (q) => new Date(q.quoteDate) > oneMonthAgo,
+      );
+
+      if (recentQuotes.length === 0) {
+        list.innerHTML = "<li>No recent quotes found.</li>";
+        return;
+      }
+
+      for (const quote of recentQuotes) {
+        const li = document.createElement("li");
+        li.innerHTML = `
             <strong>${quote.customerName}</strong><br>
             Date: ${quote.quoteDate}<br>
             Status: ${quote.getStatus()}<br>
             Total: $${quote.getTotal().toFixed(2)}
           `;
-      list.appendChild(li);
+        list.appendChild(li);
+      }
     }
-  }
 
-  navigate(_) {
-    console.log(_);
-    this.dispatchEvent(new CustomEvent('ʤ',
-      {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        detail: {
-          channel: "go",
-          data: _
-        }
-      }));
-  }
+    navigate(_) {
+      console.log(_);
+      this.dispatchEvent(
+        new CustomEvent("ʤ", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+          detail: {
+            channel: "go",
+            data: _,
+          },
+        }),
+      );
+    }
 
-  static get observedAttributes() {
-    return [];
-  }
+    static get observedAttributes() {
+      return [];
+    }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-
-  }
-
-});
+    attributeChangedCallback(name, oldValue, newValue) {}
+  },
+);
 //#endregion CLASS
 
 //#region TEST USAGE
